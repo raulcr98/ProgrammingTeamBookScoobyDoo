@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int MAXN = 1e9;
+const int sqMAXN = 5 * 1e4;
+
+vector<int> sol;
+
+void build(int t, int N){
+    if(N & 1){
+        sol.push_back(N / 2);
+        sol.push_back(N / 2 + 1);
+        return;
+    }
+    if(t == 3){
+        sol.push_back(N / 3 - 1);
+        sol.push_back(N / 3);
+        sol.push_back(N / 3 + 1);
+        return;
+    }
+    if(t & 1){
+        for(int i = N / t - t / 2 ; i <= N / t + t / 2 ; i++)
+            sol.push_back(i);
+        return;
+    }
+    int aux = N / t;
+    if((t / 2) * (aux + (aux - 1)) == N){
+        for(int i = aux - t / 2 ; i <= t / 2 + aux - 1 ; i++)
+            sol.push_back(i);
+        return;
+    }
+    for(int i = aux - t / 2 + 1 ; i <= t / 2 + aux ; i++)
+        sol.push_back(i);
+    return;
+}
+
+bool compr(int t, int n){
+    if(t >= n) return false;
+    int aux = n / t;
+    if(t & 1)
+        return (aux * t == n);
+    if((t / 2) * (aux + (aux - 1)) == n)
+        return true;
+    if((t / 2) * (aux + (aux + 1)) == n)
+        return true;
+    return false;
+}
+
+int f(int n){
+    int aux = n;
+    while(aux > 1 && aux % 2 == 0) aux /= 2;
+    if(aux == 1) return -1;
+
+    if(n & 1)
+        return 2;
+    if(n % 3 == 0)
+        return 3;
+
+    int t = 4;
+    while(t < sqMAXN){
+        if(compr(t, n))
+            return t;
+        t++;
+    }
+    return -1;
+}
+
+
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int N, T;
+    cin >> T;
+    while(T--){
+        cin >> N;
+        int x = f(N);
+        sol.clear();
+        if(x == -1)
+            cout << "IMPOSSIBLE\n";
+        else{
+            build(x, N);
+            cout << N << " = " << sol[0];
+            for(int i = 1 ; i < sol.size() ; i++) cout <<  " + " << sol[i];
+            cout << '\n';
+        }
+
+    }
+
+    return 0;
+}

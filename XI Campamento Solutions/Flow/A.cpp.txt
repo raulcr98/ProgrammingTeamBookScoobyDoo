@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n, sq, sq1, med;
+    pair<int, int> sol;
+    bool fla = true;
+
+    while(cin >> n && n) {
+        fla = true;
+        sq = sqrt(n);
+        sq1 = sq + 1;
+        med = sq * sq1 + 1;
+
+        if(sq * sq == n) {
+            if(n & 1) {
+                sol = make_pair(1, sq);
+            } else sol = make_pair(sq, 1);
+
+            fla = false;
+        }
+
+        if(fla) {
+            if(sq1 % 2 == 0) {
+                if(n < sq1 * sq1 && n >= med) {
+                    sol = make_pair(sq1, sq1 * sq1 - n + 1);
+                } else {
+                    sol = make_pair( n - sq * sq, sq1);
+                }
+            } else {
+                if(n < sq1 * sq1 && n >= med) {
+                    sol = make_pair( sq1 * sq1 - n + 1, sq1);
+                } else {
+                    sol = make_pair(sq1, n - sq * sq);
+                }
+            }
+        }
+
+        cout << sol.first << " " << sol.second << '\n';
+    }
+
+    return 0;
+}

@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n, sh = 0, sm = 0;
+    string g;
+    cin >> n >> g;
+
+    for(int i = 0; i < n - 1; i++) if(g[i] == 'H') sh++;
+        else sm++;
+
+    if(n == 1) cout << "HM\n";
+    else if(sh > sm)
+        cout << "H\n";
+    else if(sh < sm)
+        cout << "M\n";
+    else if(g[n - 2] == 'H') cout << "M\n";
+    else cout << "H\n";
+
+    return 0;
+}

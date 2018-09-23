@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+//#include <sys/resource.h>
+
+using namespace std;
+
+//rlimit rl;
+typedef vector<int> vi;
+typedef long long ll;
+const int MAXN = 100;
+string g;
+int cont, num, len;
+
+vector<int> sol;
+ll M;
+ll mask;
+//map<ll,bool> mapa[55];
+
+bool f(int i) {
+    if(g[i] == '0') return 0;
+    if(mask == M) return true;
+    if(i >= len) return 0;
+    int x1 = g[i] - '0';
+    //  if(mapa[i].find(mask)!=mapa[i].end()) return false;
+
+    if(i < len - 1) {
+        int x2 = x1 * 10 + (g[i + 1] - '0');
+
+        if(x2 <= num && !(mask & (1LL << x2))) {
+            mask |= (1LL << x2);
+
+            if(f(i + 2)) {
+                sol.push_back(x2);
+                return 1;
+            }
+
+            mask ^= (1LL << x2);
+        }
+    }
+
+    if(!(mask & (1LL << x1))) {
+        mask |= (1LL << x1);
+        if(f(i + 1)) {
+            sol.push_back(x1);
+            return 1;
+        }
+        mask ^= (1LL << x1);
+    }
+
+    // mapa[i][mask]=false;
+    return 0;
+}
+
+
+int main() {
+//getrlimit(RLIMIT_STACK, &rl);
+//rl.rlim_cur=1024L*1024L*1024L;
+//setrlimit(RLIMIT_STACK,&rl);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    freopen("joke.in", "r", stdin);
+    freopen("joke.out", "w", stdout);
+
+    cin >> g;
+    len = g.length();
+
+    if(len > 9) num = (len - 9) / 2 + 9;
+    else num = len;
+
+    M = (1LL << (num + 1)) - 2;
+    f(0);
+    cout << sol[sol.size() - 1];
+
+    for(int i = sol.size() - 2; i >= 0; i--)
+        cout << ' ' << sol[i];
+
+    cout << "\n";
+    return 0;
+}
+
+//5049484746454443424140393837363534333231302928272625242322212019181716151413121110987654321

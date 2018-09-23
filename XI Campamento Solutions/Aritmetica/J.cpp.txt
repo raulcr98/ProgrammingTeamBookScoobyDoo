@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+ll base[10], acum[10], sol[10];
+
+void f(ll n, bool signo) {
+    if(!n)return;
+    int pos = 0;
+    while(pos < 10 && base[pos] + acum[pos] < n) pos++;
+    if(signo) sol[pos] = 1;
+    else sol[pos] = -1;
+    ll aux = base[pos];
+    if(aux > n)  f(abs(n - aux), !signo);
+    else  f(abs(n - aux), signo);
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    base[0] = 1;
+    ll ba = 1, pos = 0;
+
+    while(pos <= 8) {
+        base[pos++] = ba;
+        acum[pos] = acum[pos - 1] + base[pos - 1];
+        ba *= 3;
+        //  cout<<acum[pos]<<'\n';
+    }
+
+int t,n;
+cin>>t;
+while(t--)
+{
+    cin>>n;
+    memset(sol,0,sizeof(sol));
+    f(n,true);
+    int pos=9;
+    while(pos>0 && sol[pos]==0) pos--;
+    string g ="";
+    for(int i=pos; i>=0;i--){
+        if(sol[i]==1) g=g+"+";
+        else if(sol[i]==-1)g=g+"-";
+        else g =g+"0";
+    }
+        cout<<g<<'\n';
+}
+
+    return 0;
+}
