@@ -1,4 +1,4 @@
-def burbuja_sort(self):
+def bubble_sort(self):
     lon = self.get_length()
     for i in range(lon):
         for j in range(1, lon):
