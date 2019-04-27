@@ -3,8 +3,7 @@ class Array:
     maxim = 0
 
     def __init__(self, N):
-        for i in range(N):
-            self.array.append(0)
+        self.array = [0] * N
 
     def set_value(self, pos, value):
         self.array[pos] = value
